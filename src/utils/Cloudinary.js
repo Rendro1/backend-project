@@ -4,7 +4,7 @@ import fs from "fs";
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_SECRET_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET_KEY
 });
 
 const uploadOnCloudinary = async (localFilePath) => {
@@ -12,20 +12,21 @@ const uploadOnCloudinary = async (localFilePath) => {
     if (!localFilePath) {
       return null;
     }
-    const response = cloudinary.uploader.upload(localFilePath, {
-      resource_type: "auto",
+    const response = await cloudinary.uploader.upload(localFilePath, {
+      resource_type: "auto"
     });
     // file has been uploading
-    console.log("file is not uploaded on cloudinary", response.url);
+    // console.log("file is not uploaded on cloudinary", response.url);
+    fs.unlinkSync(localFilePath);
     return response;
   } catch (error) {
     // remove locally save temporary file as the upload operation got failed
-    fs.unlinkSync(localFilePath);
+    console.error("Error uploading to Cloudinary:", error);
+    return null; // Return null when there's an error
+    // fs.unlinkSync(localFilePath);
+    // return null;
   }
 };
 
-// cloudinary.uploader.upload("https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg",
-//   { public_id: "olympic_flag" },
-//   function(error, result) {console.log(result); });
 
 export { uploadOnCloudinary };
