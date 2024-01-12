@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-const userSchema = new Schema(
+const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
@@ -30,7 +30,7 @@ const userSchema = new Schema(
       required: true,
     },
     coverImage: {
-      required: true,
+      type: String,
     },
     watchHistory: [
       {
