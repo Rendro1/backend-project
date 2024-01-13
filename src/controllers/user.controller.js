@@ -7,7 +7,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 const registerUser = asyncHandler(async (req, res) => {
   // get user details from frontend
   const { fullname, email, username, password } = req.body;
-  //   console.log(fullname, email, username, password);
+  // console.log(req.files);
 
   // after taking the details perform authentication and check validation
   if (
@@ -24,7 +24,15 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(409, "This user is already exist!");
   }
   //check if image is given or not
-  const coverImageLocalPath = req.files?.coverImage[0]?.path;
+  // const coverImageLocalPath = req.files?.coverImage[0]?.path;
+  let coverImageLocalPath;
+  if (
+    req.files &&
+    Array.isArray(req.files.coverImage) &&
+    req.files.coverImage.length > 0
+  ) {
+    coverImageLocalPath = req.files.coverImage[0]?.path;
+  }
 
   //check if avatar is given or not
   const avatarLocalPath = req.files?.avatar[0]?.path;
