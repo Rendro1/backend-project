@@ -4,7 +4,8 @@ import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/Cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
-const GenerateAccesAndRefershTokens = async (userId) => {
+const generateAccessAndRefereshTokens = async (userId) => {
+  
   try {
     const user = await User.findById(userId);
     const accessToken = user.generateAccessToken();
